@@ -24,4 +24,8 @@
     <ProjectReference Include="..\TheCastle.Kernel\TheCastle.Kernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>
