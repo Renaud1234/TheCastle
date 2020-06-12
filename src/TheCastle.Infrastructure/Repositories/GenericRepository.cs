@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,14 +40,14 @@ namespace TheCastle.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<TEntity> GetOne(int id)
+        public async Task<TEntity> GetOne(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<TEntity>> ListAll()
+        public async Task<List<TEntity>> ListAll()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
         public Task Update(TEntity entity)

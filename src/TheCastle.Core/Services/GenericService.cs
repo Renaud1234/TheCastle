@@ -18,39 +18,39 @@ namespace TheCastle.Core.Services
         }
 
 
-        public Task Create(TEntity entity)
+        public async Task Create(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            await _GenericRepository.Create(entity);
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new System.NotImplementedException();
+            await _GenericRepository.Delete(id);
         }
 
-        public Task Delete(TEntity entity)
+        public async Task Delete(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            await _GenericRepository.Delete(entity);
         }
 
         public IQueryable<TEntity> GetAll()
         {
-            throw new System.NotImplementedException();
+            return _GenericRepository.GetAll();
         }
 
         public Task<TEntity> GetOne(int id)
         {
-            throw new System.NotImplementedException();
+            return _GenericRepository.GetOne(id);
         }
 
         public Task<List<TEntity>> ListAll()
         {
-            throw new System.NotImplementedException();
+            return _GenericRepository.ListAll();
         }
 
-        public Task Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
-            throw new System.NotImplementedException();
+            await _GenericRepository.Update(entity);
         }
     }
 }
