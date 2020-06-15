@@ -6,7 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TheCastle.Core.Interfaces;
+using TheCastle.Core.Services;
 using TheCastle.Infrastructure.Data;
+using TheCastle.Infrastructure.Interfaces;
+using TheCastle.Infrastructure.Repositories;
 
 namespace TheCastle.Web
 {
@@ -29,7 +33,9 @@ namespace TheCastle.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDBContext>(options =>
+            DependancyInjection(services);
+
+            services.AddDbContext<IGenericService>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
@@ -64,6 +70,16 @@ namespace TheCastle.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        // Scope Dependency Injections
+        private static void DependancyInjection(IServiceCollection services)
+        {
+            services.AddScoped<IArmyRepository, ArmyRepository>();
+            services.AddScoped<ICastleRepository, CastleRepository>();
+
+            services.AddScoped<IArmyService, ArmyService>();
+            services.AddScoped<ICastleService, CastleService>();
         }
     }
 }

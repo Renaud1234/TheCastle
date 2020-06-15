@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="UseCases\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TheCastle.Infrastructure\TheCastle.Infrastructure.csproj" />
     <ProjectReference Include="..\TheCastle.Kernel\TheCastle.Kernel.csproj" />
   </ItemGroup>
 

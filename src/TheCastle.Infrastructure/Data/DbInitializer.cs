@@ -8,7 +8,7 @@ namespace TheCastle.Infrastructure.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(ApplicationDBContext context)
+        public static void Initialize(IGenericService context)
         {
             if (context.Armies.Any() == false)
             {

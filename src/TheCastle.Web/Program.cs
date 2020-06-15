@@ -19,7 +19,7 @@ namespace TheCastle.Web
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDBContext>();
+                    var context = services.GetRequiredService<IGenericService>();
                     DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)

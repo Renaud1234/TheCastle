@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using TheCastle.Kernel.Entities.Base;
 
-namespace TheCastle.Kernel
+namespace TheCastle.Infrastructure.Interfaces
 {
     public interface IGenericRepository<TEntity>
         where TEntity : BaseEntity
@@ -13,7 +15,6 @@ namespace TheCastle.Kernel
         Task<TEntity> GetOne(int id);
         Task Create(TEntity entity);
         Task Update(TEntity entity);
-        Task Delete(int id);
         Task Delete(TEntity entity);
     }
 }

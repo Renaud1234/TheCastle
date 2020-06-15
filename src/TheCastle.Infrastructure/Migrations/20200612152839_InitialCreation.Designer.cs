@@ -9,7 +9,7 @@ using TheCastle.Infrastructure.Data;
 
 namespace TheCastle.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationDBContext))]
+    [DbContext(typeof(IGenericService))]
     [Migration("20200612152839_InitialCreation")]
     partial class InitialCreation
     {

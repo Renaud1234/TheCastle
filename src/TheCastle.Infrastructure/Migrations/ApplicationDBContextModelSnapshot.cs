@@ -8,7 +8,7 @@ using TheCastle.Infrastructure.Data;
 
 namespace TheCastle.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationDBContext))]
+    [DbContext(typeof(IGenericService))]
     partial class ApplicationDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

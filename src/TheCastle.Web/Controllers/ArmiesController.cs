@@ -12,9 +12,9 @@ namespace TheCastle.Web.Controllers
 {
     public class ArmiesController : Controller
     {
-        private readonly ApplicationDBContext _context;
+        private readonly IGenericService _context;
 
-        public ArmiesController(ApplicationDBContext context)
+        public ArmiesController(IGenericService context)
         {
             _context = context;
         }
@@ -46,6 +46,7 @@ namespace TheCastle.Web.Controllers
         // GET: Armies/Create
         public IActionResult Create()
         {
+            ViewData["ArmyId"] = new SelectList(_context.Castles, "Id", "Id");
             return View();
         }
 

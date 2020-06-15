@@ -4,9 +4,9 @@ using TheCastle.Kernel.Entities;
 
 namespace TheCastle.Infrastructure.Data
 {
-    public class ApplicationDBContext : IdentityDbContext
+    public class IGenericService : IdentityDbContext
     {
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
+        public IGenericService(DbContextOptions<IGenericService> options)
             : base(options)
         {
         }

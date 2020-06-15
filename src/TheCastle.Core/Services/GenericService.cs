@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheCastle.Kernel;
+using TheCastle.Core.Interfaces;
+using TheCastle.Infrastructure.Interfaces;
 using TheCastle.Kernel.Entities.Base;
 
 namespace TheCastle.Core.Services
 {
-    public class GenericService<TEntity> : IGenericRepository<TEntity>
-        where TEntity : BaseEntity
+    public class GenericService<TEntity> : IGenericService<TEntity> where TEntity : BaseEntity
     {
         private readonly IGenericRepository<TEntity> _GenericRepository;
 
-        public GenericService(IGenericRepository<TEntity> genericRepository)
+        public GenericService(IGenericRepository<TEntity> genericRepo)
         {
-            _GenericRepository = genericRepository ?? throw new ArgumentNullException(nameof(genericRepository));
+            _GenericRepository = genericRepo ?? throw new ArgumentNullException(nameof(genericRepo));
         }
 
 
@@ -25,7 +25,16 @@ namespace TheCastle.Core.Services
 
         public async Task Delete(int id)
         {
-            await _GenericRepository.Delete(id);
+            TEntity entity = await GetOne(id);
+
+            if (entity != null)
+            {
+                await _GenericRepository.Delete(entity);
+            }
+            else
+            {
+                throw new ArgumentException(string.Format("Id {0} not found.", id), nameof(id));
+            }
         }
 
         public async Task Delete(TEntity entity)
@@ -33,14 +42,24 @@ namespace TheCastle.Core.Services
             await _GenericRepository.Delete(entity);
         }
 
+        public bool EntityExist(int id)
+        {
+            return GetAll().Any(x => x.Id == id);
+        }
+
         public IQueryable<TEntity> GetAll()
         {
             return _GenericRepository.GetAll();
         }
 
-        public Task<TEntity> GetOne(int id)
+        public Task<TEntity> GetOne(int? id)
         {
-            return _GenericRepository.GetOne(id);
+            if (id == null)
+            {
+                throw new ArgumentNullException("Id null", nameof(id));
+            }
+
+            return _GenericRepository.GetOne(id.GetValueOrDefault());
         }
 
         public Task<List<TEntity>> ListAll()
