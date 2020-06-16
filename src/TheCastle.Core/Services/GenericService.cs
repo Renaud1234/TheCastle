@@ -62,10 +62,10 @@ namespace TheCastle.Core.Services
             return _GenericRepository.GetOne(id.GetValueOrDefault());
         }
 
-        public Task<List<TEntity>> ListAll()
-        {
-            return _GenericRepository.ListAll();
-        }
+        //public Task<List<TEntity>> ListAll()
+        //{
+        //    return _GenericRepository.ListAll();
+        //}
 
         public async Task Update(TEntity entity)
         {

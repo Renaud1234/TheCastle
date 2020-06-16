@@ -24,7 +24,11 @@ namespace TheCastle.Web.Controllers
         // GET: Castles
         public async Task<IActionResult> Index()
         {
-            return View(await _castleService.ListAll());
+            var Castles =  await _castleService.GetAll()
+                                               .Include(x => x.Army)
+                                               .ToListAsync();
+
+            return View(Castles);
 
             /* Scaffolded code
             var applicationDBContext = _castleService.Castles.Include(c => c.Army);
@@ -37,7 +41,7 @@ namespace TheCastle.Web.Controllers
         {
             try
             {
-                Castle castle = await _castleService.GetOne(id);
+                var castle = await _castleService.GetOneWithDetails(id);
                 return View(castle);
             }
             catch (ArgumentNullException)
@@ -103,7 +107,7 @@ namespace TheCastle.Web.Controllers
 
             var armyList = _armyService.GetAll().OrderBy(x => x.Name);
 
-            ViewData["ArmyId"] = new SelectList(armyList, "Id", "Id");
+            ViewData["ArmyName"] = new SelectList(armyList, "Id", "Name");
             return View(castle);
 
             /* Scaffolded code
@@ -132,6 +136,7 @@ namespace TheCastle.Web.Controllers
 
                 var armyList = _armyService.GetAll().OrderBy(x => x.Name);
                 ViewData["ArmyId"] = new SelectList(armyList, "Id", "Id", castle.ArmyId);
+
                 return View(castle);
             }
             catch (Exception)
@@ -201,6 +206,13 @@ namespace TheCastle.Web.Controllers
         {
             var castle = await _castleService.GetOne(id);
 
+            if (castle == null)
+            {
+                return NotFound();
+            }
+
+            return View(castle);
+
             /* Scaffolded code
             if (id == null)
             {
@@ -211,12 +223,6 @@ namespace TheCastle.Web.Controllers
                 .Include(c => c.Army)
                 .FirstOrDefaultAsync(m => m.Id == id);
             */
-            if (castle == null)
-            {
-                return NotFound();
-            }
-
-            return View(castle);
         }
 
         // POST: Castles/Delete/5

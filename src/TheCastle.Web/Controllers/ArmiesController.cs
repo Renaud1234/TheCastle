@@ -1,52 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TheCastle.Infrastructure.Data;
+using TheCastle.Core.Interfaces;
 using TheCastle.Kernel.Entities;
 
 namespace TheCastle.Web.Controllers
 {
     public class ArmiesController : Controller
     {
-        private readonly IGenericService _context;
+        private readonly ICastleService _castleService;
+        private readonly IArmyService _armyService;
 
-        public ArmiesController(IGenericService context)
+        public ArmiesController(ICastleService castleService,
+                                IArmyService armyService)
         {
-            _context = context;
+            _castleService = castleService;
+            _armyService = armyService;
         }
 
         // GET: Armies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Armies.ToListAsync());
+            return View(await _armyService.GetAll().ToListAsync());
         }
 
         // GET: Armies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            try
+            {
+                var army = await _armyService.GetOne(id);
+                return View(army);
+            }
+            catch (ArgumentNullException)
             {
                 return NotFound();
             }
-
-            var army = await _context.Armies
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (army == null)
+            catch (Exception)
             {
                 return NotFound();
             }
-
-            return View(army);
         }
 
         // GET: Armies/Create
         public IActionResult Create()
         {
-            ViewData["ArmyId"] = new SelectList(_context.Castles, "Id", "Id");
+            var castleList = _castleService.GetAll().OrderBy(x => x.Name);
+
+            ViewData["CastleId"] = new SelectList(castleList, "Id", "Id");
             return View();
         }
 
@@ -57,29 +61,43 @@ namespace TheCastle.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Id")] Army army)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(army);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    await _armyService.Create(army);
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            var castleList = _castleService.GetAll().OrderBy(x => x.Name);
+
+            ViewData["CastleId"] = new SelectList(castleList, "Id", "Id");
             return View(army);
         }
 
         // GET: Armies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
-            }
+                var army = await _armyService.GetOne(id);
 
-            var army = await _context.Armies.FindAsync(id);
-            if (army == null)
+                if (army == null)
+                {
+                    return NotFound();
+                }
+
+                return View(army);
+            }
+            catch (Exception)
             {
                 return NotFound();
             }
-            return View(army);
         }
 
         // POST: Armies/Edit/5
@@ -98,8 +116,7 @@ namespace TheCastle.Web.Controllers
             {
                 try
                 {
-                    _context.Update(army);
-                    await _context.SaveChangesAsync();
+                    await _armyService.Update(army);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -114,19 +131,15 @@ namespace TheCastle.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(army);
         }
 
         // GET: Armies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var army = await _castleService.GetOne(id);
 
-            var army = await _context.Armies
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (army == null)
             {
                 return NotFound();
@@ -140,15 +153,13 @@ namespace TheCastle.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var army = await _context.Armies.FindAsync(id);
-            _context.Armies.Remove(army);
-            await _context.SaveChangesAsync();
+            await _armyService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool ArmyExists(int id)
         {
-            return _context.Armies.Any(e => e.Id == id);
+            return _armyService.EntityExist(id);
         }
     }
 }

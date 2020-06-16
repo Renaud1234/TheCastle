@@ -13,7 +13,6 @@ namespace TheCastle.Core.Interfaces
         bool EntityExist(int id);
         IQueryable<TEntity> GetAll();
         Task<TEntity> GetOne(int? id);
-        Task<List<TEntity>> ListAll();
         Task Update(TEntity entity);
     }
 }
