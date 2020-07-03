@@ -76,7 +76,7 @@ namespace TheCastle.Web.Controllers
         {
             var armyList = _armyService.GetAll().OrderBy(x => x.Name);
 
-            ViewData["ArmyId"] = new SelectList(armyList, "Id", "Id");
+            ViewData["ArmyId"] = new SelectList(armyList, "Id", "Name");
             return View();
 
             /* Scaffolded code
@@ -135,7 +135,7 @@ namespace TheCastle.Web.Controllers
                 }
 
                 var armyList = _armyService.GetAll().OrderBy(x => x.Name);
-                ViewData["ArmyId"] = new SelectList(armyList, "Id", "Id", castle.ArmyId);
+                ViewData["ArmyId"] = new SelectList(armyList, "Id", "Name", castle.ArmyId);
 
                 return View(castle);
             }
@@ -195,7 +195,7 @@ namespace TheCastle.Web.Controllers
             }
 
             var armyList = _armyService.GetAll().OrderBy(x => x.Name);
-            ViewData["ArmyId"] = new SelectList(armyList, "Id", "Id", castle.ArmyId);
+            ViewData["ArmyId"] = new SelectList(armyList, "Id", "Name", castle.ArmyId);
 
             //ViewData["ArmyId"] = new SelectList(_castleService.Armies, "Id", "Id", castle.ArmyId);
             return View(castle);

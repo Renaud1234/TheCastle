@@ -32,7 +32,7 @@ namespace TheCastle.Web.Controllers
         {
             try
             {
-                var army = await _armyService.GetOne(id);
+                var army = await _armyService.GetOneWithDetails(id);
                 return View(army);
             }
             catch (ArgumentNullException)
