@@ -34,7 +34,7 @@ namespace TheCastle.Web
 
             DependancyInjection(services);
 
-            services.AddDbContext<ApplicationDBContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 

@@ -10,8 +10,8 @@ using TheCastle.Infrastructure.Data;
 namespace TheCastle.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200714090810_Initial")]
-    partial class Initial
+    [Migration("20200714161032_CreateIdentitySchema")]
+    partial class CreateIdentitySchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -274,8 +274,8 @@ namespace TheCastle.Infrastructure.Migrations
                     b.Property<DateTime>("ActionDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ActionType")
-                        .HasColumnType("int");
+                    b.Property<string>("ActionType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NewValue")
                         .HasColumnType("nvarchar(max)");

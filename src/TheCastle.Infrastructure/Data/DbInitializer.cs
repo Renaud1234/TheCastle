@@ -9,7 +9,7 @@ namespace TheCastle.Infrastructure.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(ApplicationDBContext context)
+        public static void Initialize(ApplicationDbContext context)
         {
             if (context.Teams.Any() == false)
             {
