@@ -19,6 +19,30 @@ namespace TheCastle.Core.Services
         }
 
 
+        public override Task Create(Castle castle)
+        {
+            // Recover UserId/TeamId
+            var teamId = 1;
+
+            // Add TeamId to entity
+            castle.TeamId = teamId;
+
+            // Update entity
+            return base.Create(castle);
+        }
+
+        public override Task Delete(Castle castle)
+        {
+            // Recover UserId/TeamId
+            var teamId = 1;
+
+            // Check old/new TeamId
+
+
+            // Update entity
+            return base.Delete(castle);
+        }
+
         public async Task<Castle> GetOneWithDetails(int? id)
         {
             if (id == null)
@@ -30,6 +54,21 @@ namespace TheCastle.Core.Services
                 .AsNoTracking()
                 .Include(x => x.Army)
                 .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public override Task Update(Castle castle)
+        {
+            // Recover UserId/TeamId
+            var teamId = 1;
+
+            // Check old/new TeamId
+
+
+            // Add TeamId to entity
+            castle.TeamId = teamId;
+
+            // Update entity
+            return base.Update(castle);
         }
     }
 }

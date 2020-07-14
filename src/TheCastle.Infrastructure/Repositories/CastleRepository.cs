@@ -9,7 +9,7 @@ namespace TheCastle.Infrastructure.Repositories
 {
     public class CastleRepository : GenericRepository<Castle>, ICastleRepository
     {
-        public CastleRepository(IGenericService dbContext) : base(dbContext)
+        public CastleRepository(ApplicationDBContext dbContext) : base(dbContext)
         {
         }
     }

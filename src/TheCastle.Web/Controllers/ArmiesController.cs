@@ -59,7 +59,7 @@ namespace TheCastle.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Id")] Army army)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Army army)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace TheCastle.Web.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Id")] Army army)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Army army)
         {
             if (id != army.Id)
             {
@@ -138,7 +138,7 @@ namespace TheCastle.Web.Controllers
         // GET: Armies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            var army = await _castleService.GetOne(id);
+            var army = await _armyService.GetOne(id);
 
             if (army == null)
             {

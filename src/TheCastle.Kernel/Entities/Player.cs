@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using TheCastle.Kernel.Entities.Base;
 
 namespace TheCastle.Kernel.Entities
 {
-    public class Castle : BaseEntity
+    public class Player
     {
-        [Required]
-        [StringLength(30)]
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
-        public int? ArmyId { get; set; }
+        public int TeamId { get; set; }
 
 
         #region Navigation properties
-        public Army Army { get; set; }
+        public Team Team { get; set; }
         #endregion
     }
 }

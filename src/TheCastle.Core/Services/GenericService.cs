@@ -8,7 +8,8 @@ using TheCastle.Kernel.Entities.Base;
 
 namespace TheCastle.Core.Services
 {
-    public class GenericService<TEntity> : IGenericService<TEntity> where TEntity : BaseEntity
+    public class GenericService<TEntity> : IGenericService<TEntity> 
+        where TEntity : BaseEntity
     {
         private readonly IGenericRepository<TEntity> _GenericRepository;
 
@@ -18,7 +19,7 @@ namespace TheCastle.Core.Services
         }
 
 
-        public async Task Create(TEntity entity)
+        public virtual async Task Create(TEntity entity)
         {
             await _GenericRepository.Create(entity);
         }
@@ -37,7 +38,7 @@ namespace TheCastle.Core.Services
             }
         }
 
-        public async Task Delete(TEntity entity)
+        public virtual async Task Delete(TEntity entity)
         {
             await _GenericRepository.Delete(entity);
         }
@@ -67,7 +68,7 @@ namespace TheCastle.Core.Services
         //    return _GenericRepository.ListAll();
         //}
 
-        public async Task Update(TEntity entity)
+        public virtual async Task Update(TEntity entity)
         {
             await _GenericRepository.Update(entity);
         }

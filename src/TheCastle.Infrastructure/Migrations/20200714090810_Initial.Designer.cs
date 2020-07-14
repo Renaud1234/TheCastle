@@ -9,9 +9,9 @@ using TheCastle.Infrastructure.Data;
 
 namespace TheCastle.Infrastructure.Migrations
 {
-    [DbContext(typeof(IGenericService))]
-    [Migration("20200612154205_Army")]
-    partial class Army
+    [DbContext(typeof(ApplicationDBContext))]
+    [Migration("20200714090810_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -227,7 +227,12 @@ namespace TheCastle.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Armies");
                 });
@@ -239,7 +244,7 @@ namespace TheCastle.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ArmyId")
+                    b.Property<int?>("ArmyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -247,11 +252,89 @@ namespace TheCastle.Infrastructure.Migrations
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30);
 
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ArmyId");
 
+                    b.HasIndex("TeamId");
+
                     b.ToTable("Castles");
+                });
+
+            modelBuilder.Entity("TheCastle.Kernel.Entities.DataLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ActionDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ActionType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NewValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginalValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PlayerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RecordId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TableName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlayerId");
+
+                    b.ToTable("DataLogs");
+                });
+
+            modelBuilder.Entity("TheCastle.Kernel.Entities.Player", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("TheCastle.Kernel.Entities.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -305,11 +388,40 @@ namespace TheCastle.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TheCastle.Kernel.Entities.Army", b =>
+                {
+                    b.HasOne("TheCastle.Kernel.Entities.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TheCastle.Kernel.Entities.Castle", b =>
                 {
                     b.HasOne("TheCastle.Kernel.Entities.Army", "Army")
                         .WithMany("Castles")
-                        .HasForeignKey("ArmyId")
+                        .HasForeignKey("ArmyId");
+
+                    b.HasOne("TheCastle.Kernel.Entities.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TheCastle.Kernel.Entities.DataLog", b =>
+                {
+                    b.HasOne("TheCastle.Kernel.Entities.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId");
+                });
+
+            modelBuilder.Entity("TheCastle.Kernel.Entities.Player", b =>
+                {
+                    b.HasOne("TheCastle.Kernel.Entities.Team", "Team")
+                        .WithMany("Players")
+                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
