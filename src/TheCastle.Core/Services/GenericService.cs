@@ -21,6 +21,13 @@ namespace TheCastle.Core.Services
 
         public virtual async Task Create(TEntity entity)
         {
+            // Recover UserId/TeamId
+            var teamId = 1;
+
+            // Add TeamId to entity
+            entity.TeamId = teamId;
+
+            // Update entity
             await _GenericRepository.Create(entity);
         }
 
@@ -40,6 +47,13 @@ namespace TheCastle.Core.Services
 
         public virtual async Task Delete(TEntity entity)
         {
+            // Recover UserId/TeamId
+            var teamId = 1;
+
+            // Check old/new TeamId
+
+
+            // Update entity
             await _GenericRepository.Delete(entity);
         }
 
@@ -70,6 +84,16 @@ namespace TheCastle.Core.Services
 
         public virtual async Task Update(TEntity entity)
         {
+            // Recover UserId/TeamId
+            var teamId = 1;
+
+            // Check old/new TeamId
+
+
+            //// Add TeamId to entity
+            entity.TeamId = teamId;
+
+            // Update entity
             await _GenericRepository.Update(entity);
         }
     }
