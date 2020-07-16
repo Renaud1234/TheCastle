@@ -48,7 +48,7 @@ namespace TheCastle.Core.Services
         public virtual async Task Delete(TEntity entity)
         {
             // Recover UserId/TeamId
-            var teamId = 1;
+            //var teamId = 1;
 
             // Check old/new TeamId
 
