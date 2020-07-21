@@ -8,10 +8,17 @@ namespace TheCastle.Kernel.Entities
 {
     public class Army : BaseEntity
     {
+        // Init Collection
+        public Army()
+        {
+            Castles = new HashSet<Castle>();
+        }
+
+        // Entity properties
         public string Name { get; set; }
 
-        #region Navigation properties
-        public ICollection<Castle> Castles { get; set; }
-        #endregion
+
+        // Navigation properties
+        public ICollection<Castle> Castles { get; private set; }
     }
 }

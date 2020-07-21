@@ -7,13 +7,19 @@ namespace TheCastle.Kernel.Entities
 {
     public class Team
     {
+        // Init Collections
+        public Team()
+        {
+            Players = new HashSet<Player>();
+        }
+
+        // Entity properties
         public int Id { get; set; }
 
         public string Name { get; set; }
 
 
-        #region Navigation properties
-        public ICollection<Player> Players { get; set; }
-        #endregion
+        // Navigation properties
+        public ICollection<Player> Players { get; private set; }
     }
 }

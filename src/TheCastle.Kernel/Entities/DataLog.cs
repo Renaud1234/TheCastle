@@ -22,9 +22,7 @@ namespace TheCastle.Kernel.Entities
         public DateTime ActionDateTime { get; set; }
 
 
-        #region Navigation properties
+        // Navigation properties
         public Player Player { get; set; }
-
-        #endregion
     }
 }

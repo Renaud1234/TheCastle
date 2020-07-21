@@ -8,15 +8,13 @@ namespace TheCastle.Kernel.Entities
 {
     public class Castle : BaseEntity
     {
-        [Required]
-        [StringLength(30)]
+        // Entity properties
         public string Name { get; set; }
 
         public int? ArmyId { get; set; }
 
 
-        #region Navigation properties
+        // Navigation properties
         public Army Army { get; set; }
-        #endregion
     }
 }

@@ -14,8 +14,7 @@ namespace TheCastle.Kernel.Entities
         public int TeamId { get; set; }
 
 
-        #region Navigation properties
+        // Navigation properties
         public Team Team { get; set; }
-        #endregion
     }
 }
